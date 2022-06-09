@@ -32,3 +32,18 @@ function operate(num1, num2, operator) {
         break;
     }
 }
+
+let buttonPress = '';
+const outputDiv = document.getElementById("output");
+const buttons = document.querySelectorAll("button");
+buttons.forEach(button => {
+    button.addEventListener('click', (btn => {
+        // TODO: need to add logic for each button press.
+        // insert function within listener to evaluate each button press
+        // for appropriate actions (storing value, clearing values, 
+        // operation, etc.)
+        buttonPress = btn.target.id;
+        outputDiv.innerHTML = buttonPress;
+    }));
+});
+
