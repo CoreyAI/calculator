@@ -20,16 +20,12 @@ function divide(num1, num2) {
 function operate(num1, num2, operator) {
     switch (operator) {
         case '+': return(add(num1, num2));
-        break;
         
         case '-': return(subtract(num1, num2));
-        break;
 
         case '*': return(multiply(num1, num2));
-        break;
         
         case '/': return(divide(num1, num2));
-        break;
     }
 }
 
@@ -37,7 +33,6 @@ const outputDiv = document.getElementById("output");
 const buttons = document.querySelectorAll("button");
 buttons.forEach(button => {
     button.addEventListener('click', (btn => {
-        // TODO: Continue modifying the calcLogic function.
         calcLogic(btn.target.id);
     }));
 });
@@ -45,11 +40,6 @@ buttons.forEach(button => {
 let i = 0;
 let storage = [];
 function calcLogic(input) {
-    // TODO: modify add/subtract/multiply/divide logic to be able
-    // to correct an accidental operation input. Replacing the
-    // current cases with a operator function may ease this task.
-    // TODO: Add additional logic for equating the stored values and
-    // operations.
     switch (input) {
         case 'add':
             i++;
@@ -81,7 +71,8 @@ function calcLogic(input) {
             calcBackspace();
             break;
         case 'equal':
-            console.log("need equal function");
+            calcEquation();
+            break;
         default:
             calcNumInput(input);
     }
@@ -135,4 +126,15 @@ function calcStorageClear() {
     storage.splice(0, storage.length);
     i = 0;
     storage[i] = '0';
+}
+
+function calcEquation() {
+    i = 0;
+    while (storage.length >= 3) {
+        let num1 = parseFloat(storage[0]);
+        let operator = storage[1];
+        let num2 = parseFloat(storage[2]);
+        storage[0] = operate(num1, num2, operator);
+        storage.splice(1,2);
+    }
 }
