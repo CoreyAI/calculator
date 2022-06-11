@@ -37,40 +37,53 @@ buttons.forEach(button => {
     }));
 });
 
-let i = 0;
-let storage = [];
+const keys = document.querySelector('body');
+keys.addEventListener('keydown', key => {
+    let regex = /\d|\+|\-|\*|\/|\=|\.|(Backspace)|(Enter)|(Delete)/;
+    if (regex.test(key.key)) {
+        calcLogic(key.key.toLowerCase());
+    }
+});
+
+let i = 0, ansFlag = false, storage = [];
 function calcLogic(input) {
     switch (input) {
-        case 'add':
+        case '+':
             i++;
             storage[i] = "+";
             i++;
             break;
-        case 'subtract':
+        case '-':
             i++;
             storage[i] = "-";
             i++;
             break;
-        case 'multiply':
+        case '*':
             i++;
             storage[i] = "*";
             i++;
             break;
-        case 'divide':
+        case '/':
             i++;
             storage[i] = "/";
             i++;
             break;
-        case 'decimal':
+        case '.':
             calcDecimal();
             break;
         case 'clear':
             calcStorageClear();
             break;
+        case 'delete':
+            calcStorageClear();
+            break;
         case 'backspace':
             calcBackspace();
             break;
-        case 'equal':
+        case '=':
+            calcEquation();
+            break;
+        case 'enter':
             calcEquation();
             break;
         default:
@@ -80,7 +93,6 @@ function calcLogic(input) {
 }
 
 function calcOutput() {
-    console.table(storage);
     if (!storage[i]) {
         if (i != 0) {
             outputDiv.innerHTML = storage[i - 1];
@@ -98,8 +110,12 @@ function calcNumInput(input) {
         return;
     } else if (storage[i].length >= 9) {
         return;
+    } else if (ansFlag) {
+        calcStorageClear();
+        storage[i] = '';
     }
     storage[i] += input;
+    ansFlag = false
 }
 
 function calcDecimal() {
@@ -137,4 +153,5 @@ function calcEquation() {
         storage[0] = operate(num1, num2, operator);
         storage.splice(1,2);
     }
+    ansFlag = true;
 }
